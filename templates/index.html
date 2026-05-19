@@ -1,0 +1,1084 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express Animate | AI Animation Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+
+        :root {
+            --primary: #10a37f;
+            --primary-dark: #0d8c6c;
+            --sidebar-bg: #202123;
+            --chat-bg: #343541;
+            --message-user-bg: #10a37f;
+            --message-ai-bg: #444654;
+            --text-primary: #ececf1;
+            --text-secondary: #acacbe;
+            --border-color: #4d4d4f;
+            --input-bg: #40414f;
+            --hover-bg: #2a2b32;
+        }
+
+        body {
+            background-color: var(--chat-bg);
+            color: var(--text-primary);
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Enhanced Sidebar */
+        .sidebar {
+            width: 280px;
+            background-color: var(--sidebar-bg);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform 0.3s ease;
+            z-index: 10;
+            border-right: 1px solid var(--border-color);
+        }
+
+        .sidebar-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .logo i {
+            color: var(--primary);
+        }
+
+        .new-chat-btn {
+            width: calc(100% - 30px);
+            margin: 15px;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            font-size: 14px;
+        }
+
+        .new-chat-btn:hover {
+            background-color: var(--hover-bg);
+            transform: translateY(-1px);
+        }
+
+        .history-section {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+
+        .section-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            padding: 10px 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .history-list {
+            list-style: none;
+        }
+
+        .history-item {
+            padding: 10px 15px;
+            border-radius: 6px;
+            margin-bottom: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .history-item:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .history-item i {
+            color: var(--text-secondary);
+            font-size: 12px;
+        }
+
+        .info-section {
+            padding: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        .info-item i {
+            width: 16px;
+            text-align: center;
+        }
+
+        .sidebar-footer {
+            padding: 15px;
+            border-top: 1px solid var(--border-color);
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        /* Main Chat Area */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+        }
+
+        .chat-header {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--chat-bg);
+        }
+
+        .chat-title {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .header-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+            transition: color 0.2s;
+        }
+
+        .header-btn:hover {
+            color: var(--text-primary);
+            background-color: var(--hover-bg);
+        }
+
+        .chat-box {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            background: linear-gradient(135deg, var(--chat-bg) 0%, #2d2e3a 100%);
+        }
+
+        .message {
+            display: flex;
+            gap: 20px;
+            max-width: 100%;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .user-message {
+            justify-content: flex-end;
+        }
+
+        .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+            font-size: 14px;
+        }
+
+        .user-avatar {
+            background-color: var(--message-user-bg);
+        }
+
+        .ai-avatar {
+            background-color: #5436da;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 16px 20px;
+            border-radius: 12px;
+            line-height: 1.6;
+            font-size: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .user-message .message-content {
+            background-color: var(--message-user-bg);
+            border-bottom-right-radius: 4px;
+        }
+
+        .ai-message .message-content {
+            background-color: var(--message-ai-bg);
+            border-bottom-left-radius: 4px;
+        }
+
+        .media-container {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .media-item {
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid var(--border-color);
+        }
+
+        .media-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: var(--text-secondary);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .media-content {
+            width: 100%;
+        }
+
+        .media-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .media-audio, .media-video {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        /* Enhanced Input Area */
+        .input-area {
+            padding: 20px;
+            position: relative;
+            background: var(--chat-bg);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .input-container {
+            display: flex;
+            gap: 12px;
+            max-width: 768px;
+            margin: 0 auto;
+            position: relative;
+            background: var(--input-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 8px;
+            transition: border-color 0.2s;
+        }
+
+        .input-container:focus-within {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 2px rgba(16, 163, 127, 0.1);
+        }
+
+        .prompt-input {
+            flex: 1;
+            padding: 12px 50px 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            resize: none;
+            max-height: 200px;
+            outline: none;
+            background: transparent;
+            color: var(--text-primary);
+            line-height: 1.5;
+        }
+
+        .prompt-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .input-buttons {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .action-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-btn:hover {
+            color: var(--primary);
+            background-color: var(--hover-bg);
+        }
+
+        .send-btn {
+            background: var(--primary);
+            border: none;
+            color: white;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 6px;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .send-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .send-btn:disabled {
+            background: var(--border-color);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .avatar-preview-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 12px;
+            max-width: 768px;
+            margin: 12px auto 0;
+            padding: 10px;
+            background: var(--input-bg);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .avatar-preview {
+            width: 40px;
+            height: 40px;
+            border-radius: 6px;
+            object-fit: cover;
+            border: 2px solid var(--primary);
+        }
+
+        .avatar-remove {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 4px;
+            margin-left: auto;
+        }
+
+        .avatar-remove:hover {
+            color: #ff6b6b;
+        }
+
+        /* Voice Chat Styles */
+        .voice-recording {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            background: #ff4444;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .recording-dot {
+            width: 12px;
+            height: 12px;
+            background: white;
+            border-radius: 50%;
+            animation: recordingPulse 1s infinite;
+        }
+
+        @keyframes recordingPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+
+        /* Loading Animation */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--text-secondary);
+            animation: typingPulse 1.5s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingPulse {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: absolute;
+                transform: translateX(-100%);
+                width: 280px;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .menu-toggle {
+                display: block;
+            }
+            
+            .message-content {
+                max-width: 85%;
+            }
+            
+            .input-container {
+                margin: 0 10px;
+            }
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: 4px;
+        }
+
+        .menu-toggle:hover {
+            background-color: var(--hover-bg);
+        }
+
+        .error-message {
+            color: #ff6b6b;
+            background-color: rgba(255, 107, 107, 0.1);
+            padding: 12px;
+            border-radius: 8px;
+            margin-top: 10px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .welcome-message {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .welcome-message h2 {
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .feature-card {
+            background: var(--message-ai-bg);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .feature-card i {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Enhanced Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-film"></i>
+                    <span>Express Animate</span>
+                </div>
+            </div>
+
+            <button class="new-chat-btn" id="newChatBtn">
+                <i class="fas fa-plus"></i>
+                New Animation
+                <span style="margin-left: auto; font-size: 12px; opacity: 0.7;">Ctrl+N</span>
+            </button>
+
+            <div class="history-section">
+                <div class="section-title">Recent Animations</div>
+                <div class="history-list" id="historyList">
+                    <!-- History items will be added here -->
+                </div>
+            </div>
+
+            <div class="info-section">
+                <div class="info-item">
+                    <i class="fas fa-robot"></i>
+                    <span>AI Script Generation</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-image"></i>
+                    <span>Background Creation</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-microphone"></i>
+                    <span>Voice Narration</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-video"></i>
+                    <span>Talking Avatars</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-running"></i>
+                    <span>Full Animation</span>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>AI Animation Studio v2.0</p>
+                <p>Powered by OpenAI, Stability AI, ElevenLabs & D-ID</p>
+            </div>
+        </div>
+
+        <!-- Main Chat Area -->
+        <div class="chat-container">
+            <div class="chat-header">
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="chat-title" id="chatTitle">New Animation</div>
+                <div class="header-actions">
+                    <button class="header-btn" title="Settings">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="header-btn" title="Clear Chat" id="clearChatBtn">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="chat-box" id="chatBox">
+                <div class="welcome-message">
+                    <h2>Welcome to Express Animate! 🎬</h2>
+                    <p>Create stunning AI-powered animations with just a description</p>
+                    
+                    <div class="feature-grid">
+                        <div class="feature-card">
+                            <i class="fas fa-comment-alt"></i>
+                            <h4>AI Script</h4>
+                            <p>Generate compelling stories</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-mountain"></i>
+                            <h4>Backgrounds</h4>
+                            <p>Create stunning visuals</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-microphone-alt"></i>
+                            <h4>Voice Over</h4>
+                            <p>Natural sounding narration</p>
+                        </div>
+                        <div class="feature-card">
+                            <i class="fas fa-user-circle"></i>
+                            <h4>Talking Avatar</h4>
+                            <p>Animated character videos</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="input-area">
+                <div id="voiceRecording" class="voice-recording hidden">
+                    <div class="recording-dot"></div>
+                    <span>Listening... Speak now</span>
+                    <button class="action-btn" id="stopRecording">
+                        <i class="fas fa-square"></i>
+                    </button>
+                </div>
+
+                <div class="input-container">
+                    <div class="input-buttons">
+                        <button class="action-btn" id="uploadBtn" title="Upload Avatar">
+                            <i class="fas fa-image"></i>
+                        </button>
+                        <button class="action-btn" id="voiceBtn" title="Voice Input">
+                            <i class="fas fa-microphone"></i>
+                        </button>
+                    </div>
+                    
+                    <input type="file" id="avatarInput" accept="image/*" class="hidden">
+                    <textarea class="prompt-input" id="promptInput" placeholder="Describe your animation scene... (e.g., A man walking in a magical forest)" rows="1"></textarea>
+                    
+                    <button class="send-btn" id="sendBtn" title="Generate Animation">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                
+                <div id="avatarPreviewContainer" class="avatar-preview-container hidden">
+                    <img id="avatarPreview" class="avatar-preview">
+                    <span>Avatar Ready</span>
+                    <button class="avatar-remove" id="avatarRemove">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // DOM Elements
+            const promptInput = document.getElementById('promptInput');
+            const sendBtn = document.getElementById('sendBtn');
+            const uploadBtn = document.getElementById('uploadBtn');
+            const voiceBtn = document.getElementById('voiceBtn');
+            const stopRecording = document.getElementById('stopRecording');
+            const voiceRecording = document.getElementById('voiceRecording');
+            const avatarInput = document.getElementById('avatarInput');
+            const avatarPreview = document.getElementById('avatarPreview');
+            const avatarPreviewContainer = document.getElementById('avatarPreviewContainer');
+            const avatarRemove = document.getElementById('avatarRemove');
+            const chatBox = document.getElementById('chatBox');
+            const chatTitle = document.getElementById('chatTitle');
+            const newChatBtn = document.getElementById('newChatBtn');
+            const clearChatBtn = document.getElementById('clearChatBtn');
+            const historyList = document.getElementById('historyList');
+            const menuToggle = document.getElementById('menuToggle');
+            const sidebar = document.querySelector('.sidebar');
+
+            // State variables
+            let currentAvatar = null;
+            let chatHistory = [];
+            let currentChatId = null;
+            let recognition = null;
+
+            // Initialize voice recognition
+            if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US';
+
+                recognition.onresult = function(event) {
+                    const transcript = event.results[0][0].transcript;
+                    promptInput.value = transcript;
+                    voiceRecording.classList.add('hidden');
+                };
+
+                recognition.onerror = function(event) {
+                    console.error('Speech recognition error:', event.error);
+                    voiceRecording.classList.add('hidden');
+                    addMessage('Voice recognition failed. Please try again.', 'ai');
+                };
+
+                recognition.onend = function() {
+                    voiceRecording.classList.add('hidden');
+                };
+            } else {
+                voiceBtn.style.display = 'none';
+            }
+
+            // Auto-resize textarea
+            promptInput.addEventListener('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            // Upload avatar button
+            uploadBtn.addEventListener('click', function() {
+                avatarInput.click();
+            });
+
+            // Handle avatar selection
+            avatarInput.addEventListener('change', function(e) {
+                if (e.target.files && e.target.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(event) {
+                        avatarPreview.src = event.target.result;
+                        avatarPreviewContainer.classList.remove('hidden');
+                        currentAvatar = e.target.files[0];
+                    };
+                    
+                    reader.readAsDataURL(e.target.files[0]);
+                }
+            });
+
+            // Remove avatar
+            avatarRemove.addEventListener('click', function() {
+                avatarPreviewContainer.classList.add('hidden');
+                currentAvatar = null;
+                avatarInput.value = '';
+            });
+
+            // Voice input
+            voiceBtn.addEventListener('click', function() {
+                if (recognition) {
+                    voiceRecording.classList.remove('hidden');
+                    recognition.start();
+                }
+            });
+
+            // Stop recording
+            stopRecording.addEventListener('click', function() {
+                if (recognition) {
+                    recognition.stop();
+                }
+            });
+
+            // Send message
+            sendBtn.addEventListener('click', sendMessage);
+            promptInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && !e.shiftKey) {
+                    e.preventDefault();
+                    sendMessage();
+                }
+            });
+
+            // New chat button
+            newChatBtn.addEventListener('click', createNewChat);
+
+            // Clear chat button
+            clearChatBtn.addEventListener('click', createNewChat);
+
+            // Menu toggle for mobile
+            menuToggle.addEventListener('click', function() {
+                sidebar.classList.toggle('active');
+            });
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                if ((e.ctrlKey || e.metaKey) && e.key === 'n') {
+                    e.preventDefault();
+                    createNewChat();
+                }
+            });
+
+            // Function to create new chat
+            function createNewChat() {
+                chatBox.innerHTML = `
+                    <div class="welcome-message">
+                        <h2>Create Your Animation! 🎬</h2>
+                        <p>Describe what you want to see, and AI will generate the script, background, voice, and animation</p>
+                        
+                        <div class="feature-grid">
+                            <div class="feature-card">
+                                <i class="fas fa-comment-alt"></i>
+                                <h4>AI Script</h4>
+                                <p>Generate compelling stories</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-mountain"></i>
+                                <h4>Backgrounds</h4>
+                                <p>Create stunning visuals</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-microphone-alt"></i>
+                                <h4>Voice Over</h4>
+                                <p>Natural sounding narration</p>
+                            </div>
+                            <div class="feature-card">
+                                <i class="fas fa-user-circle"></i>
+                                <h4>Talking Avatar</h4>
+                                <p>Animated character videos</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                avatarPreviewContainer.classList.add('hidden');
+                currentAvatar = null;
+                avatarInput.value = '';
+                promptInput.value = '';
+                promptInput.style.height = 'auto';
+                currentChatId = 'chat_' + Date.now();
+                chatTitle.textContent = 'New Animation';
+            }
+
+            // Function to send message to backend
+            function sendMessage() {
+                const prompt = promptInput.value.trim();
+                if (!prompt) return;
+                
+                // Create new chat if this is the first message
+                if (!currentChatId) {
+                    currentChatId = 'chat_' + Date.now();
+                    chatTitle.textContent = prompt.substring(0, 30) + (prompt.length > 30 ? '...' : '');
+                }
+
+                // Add user message to chat
+                addMessage(prompt, 'user');
+                
+                // Clear input
+                promptInput.value = '';
+                promptInput.style.height = 'auto';
+                
+                // Show typing indicator
+                const typingMessage = addMessage('', 'ai');
+                typingMessage.innerHTML = `
+                    <div class="typing-indicator">
+                        <span>Creating your animation...</span>
+                        <div class="typing-dots">
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                            <div class="typing-dot"></div>
+                        </div>
+                    </div>
+                `;
+                
+                // Prepare form data
+                const formData = new FormData();
+                formData.append('prompt', prompt);
+                if (currentAvatar) {
+                    formData.append('avatar', currentAvatar);
+                }
+                
+                // Send request to backend
+                fetch('/generate', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Remove typing indicator
+                    chatBox.removeChild(typingMessage);
+                    
+                    if (data.error || !data.success) {
+                        const errorMsg = data.error || 'Unknown error occurred';
+                        addMessage(`<div class="error-message"><strong>Error:</strong> ${errorMsg}</div>`, 'ai');
+                    } else {
+                        // Add AI response with all generated content
+                        const messageContent = `
+                            <p><strong>Generated Script:</strong></p>
+                            <p>${data.script}</p>
+                            <div class="media-container">
+                                ${data.background ? `
+                                    <div class="media-item">
+                                        <div class="media-title"><i class="fas fa-image"></i> Background Image</div>
+                                        <img src="${data.background}" class="media-content media-image">
+                                    </div>
+                                ` : '<p><em>No background image generated</em></p>'}
+                                ${data.audio ? `
+                                    <div class="media-item">
+                                        <div class="media-title"><i class="fas fa-volume-up"></i> Audio Narration</div>
+                                        <audio controls class="media-content media-audio">
+                                            <source src="${data.audio}" type="audio/mpeg">
+                                            Your browser does not support the audio element.
+                                        </audio>
+                                    </div>
+                                ` : '<p><em>No audio generated</em></p>'}
+                                ${data.video ? `
+                                    <div class="media-item">
+                                        <div class="media-title"><i class="fas fa-video"></i> Talking Avatar Video</div>
+                                        <video controls class="media-content media-video">
+                                            <source src="${data.video}" type="video/mp4">
+                                            Your browser does not support the video element.
+                                        </video>
+                                    </div>
+                                ` : '<p><em>No video generated</em></p>'}
+                            </div>
+                        `;
+                        
+                        addMessage(messageContent, 'ai');
+                        
+                        // Add to history
+                        addToHistory(prompt, data);
+                    }
+                })
+                .catch(error => {
+                    // Remove typing indicator
+                    chatBox.removeChild(typingMessage);
+                    addMessage(`<div class="error-message"><strong>Network Error:</strong> ${error.message}</div>`, 'ai');
+                    console.error('Error:', error);
+                });
+            }
+            
+            // Function to add a message to the chat
+            function addMessage(content, sender) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${sender}-message`;
+                
+                const avatarDiv = document.createElement('div');
+                avatarDiv.className = `avatar ${sender}-avatar`;
+                avatarDiv.innerHTML = sender === 'user' ? 
+                    '<i class="fas fa-user"></i>' : 
+                    '<i class="fas fa-robot"></i>';
+                
+                const contentDiv = document.createElement('div');
+                contentDiv.className = 'message-content';
+                contentDiv.innerHTML = content;
+                
+                messageDiv.appendChild(avatarDiv);
+                messageDiv.appendChild(contentDiv);
+                
+                chatBox.appendChild(messageDiv);
+                chatBox.scrollTop = chatBox.scrollHeight;
+                
+                return messageDiv;
+            }
+            
+            // Function to add conversation to history
+            function addToHistory(prompt, data) {
+                const historyItem = document.createElement('div');
+                historyItem.className = 'history-item';
+                historyItem.innerHTML = `
+                    <i class="fas fa-film"></i>
+                    <span>${prompt.substring(0, 25) + (prompt.length > 25 ? '...' : '')}</span>
+                `;
+                
+                historyItem.addEventListener('click', function() {
+                    createNewChat();
+                    
+                    // Add user message
+                    addMessage(prompt, 'user');
+                    
+                    // Add AI response with all generated content
+                    const messageContent = `
+                        <p><strong>Generated Script:</strong></p>
+                        <p>${data.script}</p>
+                        <div class="media-container">
+                            ${data.background ? `
+                                <div class="media-item">
+                                    <div class="media-title"><i class="fas fa-image"></i> Background Image</div>
+                                    <img src="${data.background}" class="media-content media-image">
+                                </div>
+                            ` : '<p><em>No background image generated</em></p>'}
+                            ${data.audio ? `
+                                <div class="media-item">
+                                    <div class="media-title"><i class="fas fa-volume-up"></i> Audio Narration</div>
+                                    <audio controls class="media-content media-audio">
+                                        <source src="${data.audio}" type="audio/mpeg">
+                                        Your browser does not support the audio element.
+                                    </audio>
+                                </div>
+                            ` : '<p><em>No audio generated</em></p>'}
+                            ${data.video ? `
+                                <div class="media-item">
+                                    <div class="media-title"><i class="fas fa-video"></i> Talking Avatar Video</div>
+                                    <video controls class="media-content media-video">
+                                        <source src="${data.video}" type="video/mp4">
+                                        Your browser does not support the video element.
+                                    </video>
+                                </div>
+                            ` : '<p><em>No video generated</em></p>'}
+                        </div>
+                    `;
+                    
+                    addMessage(messageContent, 'ai');
+                    chatTitle.textContent = prompt.substring(0, 30) + (prompt.length > 30 ? '...' : '');
+                });
+                
+                historyList.appendChild(historyItem);
+                chatHistory.push({prompt, data});
+                
+                // Keep only last 10 history items
+                if (historyList.children.length > 10) {
+                    historyList.removeChild(historyList.firstChild);
+                }
+            }
+
+            // Initialize with new chat
+            createNewChat();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,41 @@
+{
+  "type": "complete_video_project",
+  "timestamp": "20251004_204639",
+  "prompt": "a dog is running",
+  "assets": {
+    "script": "**Title: \"The Chase – A Dog’s Pure Joy\"**\n\n**[Opening Scene: Slow-motion close-up]**\nGolden fur ripples in the wind. A pair of bright, determined eyes lock onto something unseen. *Paws twitch.* The air hums with anticipation.\n\n**[Cut to wide shot – burst of energy!]**\n**BOOM!** Like a furry comet, *Max* **LAUNCHES**—ears flapping, tongue lolling, a blur of joy against the green field. The camera races beside him, dirt kicking up in slow motion as his muscles ripple with power.\n\n**[Quick cuts – sensory overload]**\n*A squeak!* (A tennis ball bounces just out of reach.)\n*Panting breaths.* (Drool flies like tiny missiles.)\n*Thud-thud-thud.* (Paws pound the earth in rhythm with a heartbeat.)\n\n**[Final shot: Triumph!]**\nMax **SKIDS** to a stop, tail helicoptering, victory in his grin. He drops the ball at *your* feet—**eyes sparkling:** *\"Again?!\"*\n\n**[Text on screen:]**\n*\"This is why dogs run. Not for the finish… but for the FEELING.\"*\n\n**[End with slow-mo wag. Fade to black.]**\n\n**🎶 Upbeat, cinematic music with a playful build.**",
+    "background_image": null,
+    "audio_narration": null,
+    "storyboard": "Here’s a detailed **4-scene storyboard** for *\"The Chase – A Dog’s Pure Joy\"*, designed to maximize emotional impact and kinetic energy while keeping the pacing tight and cinematic.\n\n---\n\n### **STORYBOARD: \"THE CHASE – A DOG’S PURE JOY\"**\n**Total Duration:** ~30 seconds\n**Music:** Upbeat, orchestral build (e.g., playful strings + deep brass swells, ending with a triumphant stinger).\n\n---\n\n#### **SCENE 1: THE LOCK-ON (Anticipation)**\n**Scene Description:**\nA golden retriever (*Max*) crouches in lush green grass, body coiled like a spring. His ears perk up, nose twitching—he’s spotted *it*. The world slows down as his focus sharpens. A tennis ball sits just beyond the frame, teasingly out of reach.\n\n**Visual Elements:**\n- **Lighting:** Warm golden-hour glow, backlit to halo Max’s fur.\n- **Details:** Individual grass blades sway in slow motion; Max’s whiskers tremble.\n- **Sound Design:** Subtle *creak* of his haunches tensing; distant birdsong fades into silence.\n\n**Camera Angle:**\n- **Extreme Close-Up (ECU):** Eyes + nose in sharp focus (shallow depth of field).\n- **Low Angle:** Slightly below Max’s line of sight to emphasize his intensity.\n\n**Duration:** 4 seconds\n**Text Caption:** *[None—pure visual storytelling]*\n**Transition:** Sudden **SMASH CUT** to explosion of motion.\n\n---\n\n#### **SCENE 2: THE LAUNCH (Euphoric Burst)**\n**Scene Description:**\nMax **ERUPTS** into a sprint, a furry missile tearing across the field. Dirt clods explode behind his paws. The camera struggles to keep up as he zigzags, ears flapping like flags. The world blurs around him—*this* is pure, unfiltered joy.\n\n**Visual Elements:**\n- **Motion:** Slow-motion (240fps) for the first 2 seconds, then **SNAP** to real-time speed.\n- **Colors:** Vibrant greens of the field contrast with Max’s golden fur; sun flares streak across the lens.\n- **Sound Design:**\n  - *WHOOSH* of"
+  },
+  "editing_instructions": {
+    "recommended_software": [
+      "🎬 CapCut (Free) - Easiest",
+      "🎬 DaVinci Resolve (Free) - Professional",
+      "🎬 iMovie (Mac) - Simple",
+      "🎬 OpenShot (Free) - Cross-platform"
+    ],
+    "step_by_step": [
+      "1. 📥 Download background image (right-click → Save)",
+      "2. 📥 Download audio file (if available)",
+      "3. 🎞️ Import background into video editor",
+      "4. 🎵 Add audio track and sync with visuals",
+      "5. 📝 Add text captions from the script below",
+      "6. 🎨 Apply Ken Burns zoom effect to background",
+      "7. ✨ Add fade transitions between text scenes",
+      "8. 💾 Export as MP4 (1080p recommended)"
+    ],
+    "estimated_time": "5-10 minutes",
+    "output_quality": "Professional with proper editing"
+  },
+  "script_for_captions": [
+    "Caption 1: **Title: \"The Chase – A Dog’s Pure Joy\"**\n\n**[Opening Scene: Slow-motion close-up]**\nGolden fur ripples in the wind",
+    "Caption 2: A pair of bright, determined eyes lock onto something unseen",
+    "Caption 3: *Paws twitch",
+    "Caption 4: * The air hums with anticipation",
+    "Caption 5: **[Cut to wide shot – burst of energy!]**\n**BOOM!** Like a furry comet, *Max* **LAUNCHES**—ears flapping, tongue lolling, a blur of joy against the green field",
+    "Caption 6: The camera races beside him, dirt kicking up in slow motion as his muscles ripple with power",
+    "Caption 7: **[Quick cuts – sensory overload]**\n*A squeak!* (A tennis ball bounces just out of reach",
+    "Caption 8: )\n*Panting breaths"
+  ]
+}

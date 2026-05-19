@@ -1,0 +1,62 @@
+
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>AI Video Experience</title>
+            <style>
+                body, html {
+                    margin: 0; padding: 0; 
+                    width: 100%; height: 100%;
+                    font-family: Arial, sans-serif;
+                    background: #000;
+                    overflow: hidden;
+                }
+                .video-container {
+                    width: 100vw; height: 100vh;
+                    position: relative;
+                }
+                .background {
+                    width: 100%; height: 100%;
+                    background: url('/static/image_1759594582.png') center/cover;
+                    animation: zoom 30s infinite alternate;
+                }
+                @keyframes zoom {
+                    0% { transform: scale(1); }
+                    100% { transform: scale(1.1); }
+                }
+                .scene {
+                    position: absolute; top: 0; left: 0;
+                    width: 100%; height: 100%;
+                    display: flex; align-items: center; 
+                    justify-content: center;
+                    opacity: 0;
+                    animation: fadeInOut 5s ease-in-out;
+                }
+                .text {
+                    background: rgba(0,0,0,0.8);
+                    color: white; padding: 20px;
+                    border-radius: 10px; max-width: 80%;
+                    text-align: center; font-size: 20px;
+                }
+                @keyframes fadeInOut {
+                    0% { opacity: 0; }
+                    20% { opacity: 1; }
+                    80% { opacity: 1; }
+                    100% { opacity: 0; }
+                }
+                .scene0 { animation-delay: 0s; }.scene1 { animation-delay: 5s; }
+            </style>
+        </head>
+        <body>
+            <div class="video-container">
+                <div class="background"></div>
+                <div class="scene scene0"><div class="text">**Title: "The Great Chase"**
+
+**[Visuals]**
+*A fluffy orange tabby crouches low, tail twitching—then suddenly BOLTS across a sunlit living room, knocking over a toy mouse</div></div><div class="scene scene1"><div class="text">The camera follows in fast, shaky pursuit as the cat leaps onto a couch, skids on a rug, and vanishes behind a curtain with a misch</div></div>
+            </div>
+            <audio autoplay><source src="/static/audio_1759594586.mp3" type="audio/mpeg"></audio>
+            <script>setTimeout(() => location.reload(), 12000);</script>
+        </body>
+        </html>
+        

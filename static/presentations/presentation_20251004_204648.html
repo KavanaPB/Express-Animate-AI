@@ -1,0 +1,42 @@
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>AI Video Presentation</title>
+        <style>
+            body { margin: 0; padding: 0; font-family: Arial, sans-serif; }
+            .slide { 
+                width: 100vw; height: 100vh; 
+                background: url('None') center/cover;
+                display: flex; align-items: center; justify-content: center;
+                flex-direction: column; color: white; text-align: center;
+            }
+            .text-container { 
+                background: rgba(0,0,0,0.7); padding: 2rem; 
+                border-radius: 10px; max-width: 80%;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="slide"><div class="text-container"><h2>Scene 1</h2><p>**Title: "The Chase – A Dog’s Pure Joy"**
+
+**[Opening Scene: Slow-motion close-up]**
+Golden fur ripples in the wind</p></div></div><div class="slide"><div class="text-container"><h2>Scene 2</h2><p>A pair of bright, determined eyes lock onto something unseen</p></div></div><div class="slide"><div class="text-container"><h2>Scene 3</h2><p>*Paws twitch</p></div></div><div class="slide"><div class="text-container"><h2>Scene 4</h2><p>* The air hums with anticipation</p></div></div><div class="slide"><div class="text-container"><h2>Scene 5</h2><p>**[Cut to wide shot – burst of energy!]**
+**BOOM!** Like a furry comet, *Max* **LAUNCHES**—ears flapping, tongue lolling, a blur of joy against the green field</p></div></div><div class="slide"><div class="text-container"><h2>Scene 6</h2><p>The camera races beside him, dirt kicking up in slow motion as his muscles ripple with power</p></div></div>
+        <script>
+            let currentSlide = 0;
+            const slides = document.querySelectorAll('.slide');
+            function showSlide(n) {
+                slides.forEach(slide => slide.style.display = 'none');
+                slides[n].style.display = 'flex';
+            }
+            function nextSlide() {
+                currentSlide = (currentSlide + 1) % slides.length;
+                showSlide(currentSlide);
+            }
+            showSlide(0);
+            setInterval(nextSlide, 4000);
+        </script>
+    </body>
+    </html>
+    
