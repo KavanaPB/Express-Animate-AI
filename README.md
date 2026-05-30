@@ -1,71 +1,130 @@
 # 🎬 Express Animate AI
 
-## 📌 Project Overview
+> AI-Powered Cinematic Video Generation Platform
 
-Express Animate AI is an AI-powered cinematic video generation platform that creates animated videos using advanced AI tools such as Luma AI, ElevenLabs, and Replicate.
-
-The project allows users to generate cinematic AI videos, voice narration, lip-synced animations, and AI-powered visual storytelling through a modern Flask-based web application.
-
----
-
-# 🚀 Features
-
-## 🎥 AI Video Generation
-- Generate cinematic AI videos
-- Luma AI Dream Machine integration
-- High-quality animated scenes
-
-## 🔊 AI Voice Generation
-- Text-to-speech using ElevenLabs
-- Natural AI-generated narration
-- Dynamic voice generation
-
-## 😃 Lip Sync Animation
-- AI lip-sync using Replicate Wav2Lip
-- Talking AI character videos
-- Automatic audio-video synchronization
-
-## 🖼 AI Visual Generation
-- AI-generated visuals
-- Cinematic scene creation
-- Dynamic prompt-based animation
-
-## 🌐 Web Application
-- Flask backend
-- Interactive frontend
-- Modern responsive UI
-
-## ⚡ Automation
-- End-to-end AI video pipeline
-- Automated video creation workflow
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![Flask](https://img.shields.io/badge/Flask-Web%20Framework-black)
+![AI](https://img.shields.io/badge/AI-Video%20Generation-purple)
+![Status](https://img.shields.io/badge/Status-Active-success)
 
 ---
 
-# 🛠 Technologies Used
+## 📖 Project Overview
 
-## Backend
-- Python
-- Flask
+**Express Animate AI** is an AI-powered cinematic video generation platform that automates the creation of animated videos using advanced Artificial Intelligence technologies.
 
-## APIs & AI Tools
-- Luma AI
-- ElevenLabs API
-- Replicate API
-- Wav2Lip
+The application integrates powerful AI services such as **Luma AI**, **ElevenLabs**, and **Replicate Wav2Lip** to generate cinematic scenes, voice narration, lip-synced animations, and AI-driven visual storytelling through an interactive Flask-based web application.
 
-## Frontend
-- HTML
-- CSS
-- JavaScript
-
-## Tools
-- Git
-- GitHub
-- VS Code
+This project demonstrates the practical implementation of Generative AI APIs within a complete end-to-end video production workflow.
 
 ---
 
-# 📂 Project Structure
+## ✨ Key Features
+
+### 🎥 AI Video Generation
+
+* Generate cinematic AI videos from prompts
+* Luma AI Dream Machine integration
+* High-quality animated scene creation
+* Automated video generation workflow
+
+### 🔊 AI Voice Narration
+
+* Text-to-speech using ElevenLabs
+* Natural and realistic voice generation
+* Dynamic AI-powered narration
+
+### 🎭 Lip Sync Animation
+
+* Replicate Wav2Lip integration
+* Talking AI character generation
+* Automatic audio-video synchronization
+
+### 🖼️ AI Visual Storytelling
+
+* Prompt-based scene creation
+* AI-generated visuals
+* Dynamic animation workflow
+
+### 🌐 Web Application
+
+* Flask-based backend
+* Interactive user interface
+* Responsive design
+* Easy-to-use workflow
+
+### ⚡ Workflow Automation
+
+* End-to-end AI content generation
+* Automated video production pipeline
+* Reduced manual editing effort
+
+---
+
+## 🛠️ Technology Stack
+
+### Backend
+
+* Python
+* Flask
+
+### AI & APIs
+
+* Luma AI
+* ElevenLabs API
+* Replicate API
+* Wav2Lip
+
+### Frontend
+
+* HTML5
+* CSS3
+* JavaScript
+
+### Development Tools
+
+* Git
+* GitHub
+* Visual Studio Code
+
+---
+
+## 🏗️ System Architecture
+
+```text
+User Prompt
+     │
+     ▼
+Flask Application
+     │
+     ├── Prompt Processing
+     │
+     ├── Scene Generation
+     │      └── Luma AI
+     │
+     ├── Voice Narration
+     │      └── ElevenLabs
+     │
+     ├── Lip Sync Processing
+     │      └── Replicate Wav2Lip
+     │
+     ▼
+Final Animated Video Output
+```
+
+---
+
+## 📸 Application Screenshots
+
+
+
+### Final Generated Output
+
+![Final Output](screenshots/final-output.png)
+
+---
+
+## 📂 Project Structure
 
 ```bash
 Express-Animate-AI/
@@ -74,32 +133,42 @@ Express-Animate-AI/
 ├── analytics.py
 ├── luma.py
 ├── text.py
-├── templates/
+│
 ├── static/
+├── templates/
+├── screenshots/
+│
 └── README.md
 ```
 
 ---
 
-# ⚙ Installation
+## 🚀 Installation
 
-## Clone Repository
+### Clone Repository
 
 ```bash
 git clone https://github.com/KavanaPB/Express-Animate-AI.git
+cd Express-Animate-AI
 ```
 
----
-
-# 📦 Install Dependencies
+### Install Dependencies
 
 ```bash
 pip install -r requirements.txt
 ```
 
----
+### Configure Environment Variables
 
-# ▶ Run Project
+Create a `.env` file:
+
+```env
+LUMA_API_KEY=your_key
+ELEVENLABS_API_KEY=your_key
+REPLICATE_API_TOKEN=your_key
+```
+
+### Run Application
 
 ```bash
 python app.py
@@ -107,47 +176,76 @@ python app.py
 
 ---
 
-# 🌐 Local Server
+## 🌐 Local Server
 
-```bash
+```text
 http://127.0.0.1:5000
 ```
 
 ---
 
-# 🎯 Main Functionalities
+## 🎯 Core Functionalities
 
-- AI video generation
-- AI voice narration
-- Lip sync animation
-- Cinematic prompt generation
-- Automated AI workflow
-- Flask web application
-
----
-
-# 🔒 Security Note
-
-API keys are stored securely and should never be uploaded publicly.
+* AI Video Generation
+* AI Voice Narration
+* Lip Sync Animation
+* Cinematic Prompt Generation
+* Automated AI Workflow
+* Flask-Based Web Application
 
 ---
 
-# 📌 Future Enhancements
+## 🔒 Security
 
-- User authentication
-- AI avatar generation
-- Video editing tools
-- Cloud deployment
-- AI subtitle generation
-- Real-time rendering
+* API keys are stored securely using environment variables.
+* Sensitive credentials should never be committed to GitHub.
+* Follow secure API key management practices.
 
 ---
 
-# 👩‍💻 Developed By
+## 📈 Future Enhancements
 
-## Kavana P B
+* User Authentication
+* AI Avatar Generation
+* Cloud Deployment
+* Video Editing Tools
+* AI Subtitle Generation
+* Real-Time Rendering
+* Multi-Language Voice Support
+* Project Saving & Export Features
 
-MCA Student | AI & Full Stack Developer
+---
+
+## 📚 Learning Outcomes
+
+This project helped explore:
+
+* Generative AI Integration
+* Flask Web Development
+* API-Based Application Development
+* Prompt Engineering
+* AI Video Processing Workflows
+* Automation Pipelines
+* Full-Stack Project Design
+
+---
+
+## 👩‍💻 Author
+
+### Kavana P B
+
+**MCA Graduate | Software Developer | AI Enthusiast**
+
+GitHub: https://github.com/KavanaPB
+
+LinkedIn: https://www.linkedin.com/in/kavana-pb
+
+---
+
+## ⭐ Support
+
+If you found this project useful, consider giving it a **Star ⭐** on GitHub.
+
 
 ---
 
